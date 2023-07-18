@@ -25,7 +25,7 @@ ws.config(bg='black')
 
 
 
-# Addinf new page
+# Adding new page
 def newPage():
 	new_win= Toplevel(ws)
 	new_win.geometry('1100x100')
@@ -48,6 +48,7 @@ def newPage():
 	btn3.place(x=100,y=48)
 	def Submit():
 		x=str(Take.get())
+		RealPath=x
 		y=''
 		for i in x:
 			y+=i
@@ -58,7 +59,7 @@ def newPage():
 		disp_tf.delete(0,END)
 		disp_tf.insert(0,'Wait...scanning in progress')
 		Take.configure(state='disabled')
-		uploadPic(y)
+		uploadPic(y,RealPath)
 		
 		new_win.destroy()
 
@@ -79,7 +80,7 @@ FaceNumber=0
 
 
 # Upload the picture from device
-def uploadPic(FacePath):
+def uploadPic(FacePath,Realpath):
 	try:
 		import cv2
 		import dlib
@@ -114,7 +115,7 @@ def uploadPic(FacePath):
 
 		disp_tf.configure(state='normal')
 		disp_tf.delete(0,END)
-		disp_tf.insert(0,f'Number Of Faces: {FaceNumber}')
+		disp_tf.insert(0,'Number Of Faces: {}'.format(FaceNumber))
 		disp_tf.configure(state='disabled')
 	except:
 		disp_tf.configure(state='normal')
@@ -137,7 +138,7 @@ def takePic():
 
 	disp_tf.configure(state='normal') #making the entry box enabled
 	# Connects to your computer's default camera
-	cap = cv2.VideoCapture(0)
+	cap = cv2.VideoCapture(0+cv2.CAP_DSHOW)
 
 
 	# Detect the coordinates
